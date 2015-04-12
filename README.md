@@ -1,4 +1,6 @@
 # Description
+
+[![Join the chat at https://gitter.im/knarfeh/zhihu2e-book](https://badges.gitter.im/Join%20Chat.svg)](https://gitter.im/knarfeh/zhihu2e-book?utm_source=badge&utm_medium=badge&utm_campaign=pr-badge&utm_content=badge)
 将知乎上特定的内容（如某用户答案，某收藏夹答案，某专栏文章）爬下来，保存为html格式的文件，并同时生成epub文件，以离线查看。
 
 
