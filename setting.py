@@ -131,8 +131,8 @@ class Setting():
         print u'直接回车使用内置账号登陆'
         account = raw_input()
         if len(account) == 0:
-            account = "mengqingxue2014@qq.com"
-            password = "131724qingxue"
+            account = "zhihu2ebook@hotmail.com"
+            password = "Zhihu2Ebook"
         else:
             while re.search(r'\w+@[\w\.]{3,}', account) is None:   # 匹配邮箱的正则表达式，可以更完善
                 print u'抱歉，输入的账号不规范...\n请输入正确的知乎登录邮箱\n'

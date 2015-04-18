@@ -16,7 +16,6 @@ sys.setdefaultencoding('utf-8')
 
 from main import *
 
-
 gameBegin = Zhihu2ebook()
 gameBegin.main_start()
 

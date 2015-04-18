@@ -13,9 +13,9 @@ class BaseClass(object):
     """
     用于存放常用函数
     """
-    # 全局变量
+    # 全局变量，用于测试
     test_checkUpdate_flag = False
-    test_catchAnswerData_flag = False
+    test_catchAnswerData_flag = True
     test_buffer_flag = False
     # test_chekcUpdate_flag = False
     # test_chekcUpdate_flag = False
@@ -104,7 +104,7 @@ class HttpBaseClass(object):
     u"""
     常用的http函数
     """
-    def get_http_content(self, url='', extraHeader={} , data=None, timeout=5):
+    def getHttpContent(self, url='', extraHeader={} , data=None, timeout=5):
         u"""获取网页内容
 
         获取网页内容, 打开网页超过设定的超时时间则报错

@@ -52,7 +52,7 @@ class Login(BaseClass, HttpBaseClass, SqlClass, CookieBaseClass):
         print u'现在开始登陆知乎，请根据提示输入您的账号密码'
 
     def send_message(self, account, password, captcha=''):
-        xsrf = self.getXsrf(self.get_http_content('http://www.zhihu.com/login'))
+        xsrf = self.getXsrf(self.getHttpContent('http://www.zhihu.com/login'))
         print "debug: 输入的验证码：", captcha
         print "debug: 输入的用户：", account
         print "debug: 用户密码：", password

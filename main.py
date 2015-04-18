@@ -9,6 +9,7 @@
 
 from init import *
 from login import *
+from worker import *
 
 class Zhihu2ebook(object):
     def __init__(self):
@@ -16,7 +17,10 @@ class Zhihu2ebook(object):
         ContentList.txt存放需要爬取的地址（可能是收藏夹地址，可能是某用户的地址）
         ContentList.txt使用$符号区隔开，同一行内的链接信息会放在一本电子书中
         """
-        self.check_update()   # 检查是否需要更新，如果有更新，默认浏览器打开链接
+        if BaseClass.test_catchAnswerData_flag:
+            print u'测试，不检查更新'
+        else:
+            self.check_update()   # 检查是否需要更新，如果有更新，默认浏览器打开链接
         init = Init()
         self.conn = init.getConn()  #
         self.cursor = self.conn.cursor()
@@ -76,8 +80,13 @@ class Zhihu2ebook(object):
         for line in readList:
             # 一行表示一本电子书
             chapter = 1
-            for rawUrl in line.split('$'):
+            for rawUrl in line.split('$'):    # 用$符号分开章节
+                print "debug:rawUrl" + rawUrl
                 print u'正在制作第{}本电子书的第{}节'.format(bookCount, chapter)
+                urlInfo = self.getUrlInfo(rawUrl)
+                print "debug:urlInfo??", str(urlInfo).decode("unicode-escape").encode("utf-8")
+                urlInfo['worker'].start()
+                print "已经保存到数据库了"
 
     def getUrlInfo(self, rawUrl):
         u"""
@@ -134,8 +143,46 @@ class Zhihu2ebook(object):
             # 先检测专栏，再检测文章，文章比专栏网址更长，类似问题与答案的关系，取信息可以用split('/')的方式获取
             targetPattern['article'] = r'(?<=zhuanlan\.zhihu\.com/)[^/]*/\d{8}'
             targetPattern['column'] = r'(?<=zhuanlan\.zhihu\.com/)[^/#\n\r]*'
-            # TODO
+            for key in ['answer', 'question', 'author', 'collection', 'table', 'topic', 'article', 'column']:
+                urlInfo['url'] = re.search(targetPattern[key], rawUrl)
+                print "urlInfo:???："
+                print urlInfo
+                if urlInfo['url'] is not None:
+                    urlInfo['kind'] = key
+                    if key != 'article' and key != 'column':
+                        urlInfo['baseUrl'] = 'http://www.zhihu.com/' + urlInfo['url'].group(0)
+                    else:
+                        urlInfo['baseUrl'] = 'http://zhuanlan.zhihu.com/' + urlInfo['url'].group(0)
+                    return key
+            return ''
+        kind = detectUrl(rawUrl)
+        print "debug:kind???" + kind
+        # BUG！！！！！：# http://www.zhihu.com/question/28800253#answer-13417971 并没有匹配answer？？
+        if kind == 'answer':
+            print "debug:answer?"
+            urlInfo['questionID'] = re.search(r'(?<=zhihu\.com/question/)\d{8}', urlInfo['baseUrl']).group(0)
+            urlInfo['answerID'] = re.search(r'(?<=zhihu\.com/question/\d{8}/answer/)\d{8}', urlInfo['baseUrl']).group(0)
+            urlInfo['guide'] = u'成功匹配到答案地址{}，开始执行抓取任务'.format(urlInfo['baseUrl'])
+            urlInfo['worker'] = AnswerWorker(conn=self.conn, urlInfo=urlInfo)
+            # urlInfo['filter'] = AnswerFilter(self.cursor, urlInfo)
+            urlInfo['infoUrl'] = ''
 
+        if kind == 'question':
+            urlInfo['questionID'] = re.search(r'(?<=zhihu\.com/question/)\d{8}', urlInfo['baseUrl']).group(0)
+            urlInfo['guide'] = u'成功匹配到问题地址{}，开始执行抓取任务'.format(urlInfo['baseUrl'])
+            urlInfo['worker'] = QuestionWorker(conn = self.conn, urlInfo = urlInfo)
+            # urlInfo['filter'] = QuestionFilter(self.cursor, urlInfo)
+            urlInfo['infoUrl'] = ''
+
+        else:
+            # TODO
+            return ""
+        return urlInfo
+
+    def manager(self, urlInfo = {}):
+        print urlInfo['guide']
+        urlInfo['worker'].start()
+        return
 
     def check_update(self):
         u"""

@@ -228,8 +228,8 @@ class ParseQuestion(Parse):
         self.regDict['questionDesc'] = r'(?<=<div class="zm-editable-content">).*?(?=</div>)'#取到的数据是html编码过的数据，需要逆处理一次才能存入数据库里
         self.regTipDict['questionDesc'] = u'提取问题描述'
 
-        self.regDict['questionAnswerCount']= r'(?<=id="zh-question-answer-num">)\d*'
-        self.regTipDict['questionAnswerCount']       = u'问题下回答数'
+        self.regDict['questionAnswerCount'] = r'(?<=id="zh-question-answer-num">)\d*'
+        self.regTipDict['questionAnswerCount'] = u'问题下回答数'
         self.regDict['questionCollapsedAnswerCount'] = r'(?<=<span id="zh-question-collapsed-num">)\d*(?=</span>)'
         self.regDict['questionCollapsedAnswerCount'] = u'问题下回答折叠数'
         self.regDict['questionViewCount'] = r'(?<=<div class="zg-gray-normal">被浏览 <strong>)\d*(?=</strong>)'
@@ -261,7 +261,7 @@ class ParseQuestion(Parse):
 class ParseAnswer(ParseQuestion):
     def addRegex(self):
         #  实例化Regex
-        #为Regex添加合适的项目
+        # 为Regex添加合适的项目
         self.regDict['questionIDinQuestionDesc'] = r'(?<=<a href="/question/)\d{8}(?=/followers"><strong>)'
         self.regTipDict['questionIDinQuestionDesc'] = u'提取问题ID'
         self.regDict['questionFollowCount'] = r'(?<=<a href="/question/\d{8}/followers"><strong>).*(?=</strong></a>人关注该问题)'
@@ -405,8 +405,7 @@ class ParseTable:
 '''
 
 
-
-#ParseFrontPageInfo
+# ParseFrontPageInfo
 class AuthorInfoParse(Parse):
     u'规范:所有获取信息块的内容，均以Content结尾，只有直接获取对应数据的表达式才能以对应名词命名'
     u'标准网页：/about'
@@ -564,7 +563,7 @@ class CollectionInfoParse(Parse):
         self.regTipDict['authorID'] = u'用户ID'
         self.regDict['authorSign'] = r'(?<=<div class="zg-gray-normal">).*'
         self.regTipDict['authorSign'] = u'用户签名'
-        self.regDict['authorName'] = r''#需要用户ID的支持
+        self.regDict['authorName'] = r''# 需要用户ID的支持
         self.regTipDict['authorName'] = u'用户名'
 
     def getInfoDict(self):
