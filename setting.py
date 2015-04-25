@@ -15,10 +15,8 @@ import re
 
 class Setting():
     u"""
-    *   account
-        *   用户名
-    *   password
-        *   密码
+    *   account : 用户名
+    *   password : 密码
     *   rememberAccount
         *   是否保存账号密码
             *   0

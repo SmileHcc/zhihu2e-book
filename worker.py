@@ -3,7 +3,7 @@
 # ######################################################
 # File Name   :    worker.py
 # Description :    爬取网页的内容，
-# Author      :    Frank
+# Author      :    Frank，SmileHcc
 # Date        :    2014.04.14
 # ######################################################
 
@@ -46,12 +46,9 @@ class PageWorker(BaseClass, HttpBaseClass, SqlClass):
     def setCookie(self, account=''):
         self.cookieJarInMemory = cookielib.LWPCookieJar()
         if account == '':
-            Var = self.cursor.execute("select cookieStr, recordDate \
-            from LoginRecord order by recordDate desc").fetchone()
+            Var = self.cursor.execute("select cookieStr, recordDate from LoginRecord order by recordDate desc").fetchone()
         else:
-            Var = self.cursor.execute("select cookieStr, recordDate \
-            from LoginRecord order by recordDate desc \
-            where account = `{}`".format(account)).fetchone()
+            Var = self.cursor.execute("select cookieStr, recordDate from LoginRecord order by recordDate desc where account = `{}`".format(account)).fetchone()
         cookieStr = Var[0]
         self.loadCookJar(cookieStr)
 

@@ -69,15 +69,15 @@ class Parse(BaseClass):
         # 以下正则交由子类自定义之
         # 用戶首页信息提取
         self.regDict['id'] = r''
-        self.regDict['name'] = r''
-        self.regDict['sign'] = r''
         self.regTipDict['id'] = u'提取用户ID'
+        self.regDict['name'] = r''
         self.regTipDict['name'] = u'提取用户名'
+        self.regDict['sign'] = r''
         self.regTipDict['sign'] = u'提取用户签名'
 
         self.regDict['followerCount'] = r''
-        self.regDict['followCount'] = r''
         self.regTipDict['followerCount'] = u'提取被关注数'
+        self.regDict['followCount'] = r''
         self.regTipDict['followCount'] = u'提取关注数'
 
         self.regDict['answerCount'] = r''
@@ -375,7 +375,8 @@ class ParseCollection(ParseAuthor):
         # 为Regex添加合适的项目
         self.regDict['splitContent'] = r'div class="zm-item"'    # 关键表达式，用于切分答案
         self.regDict['answerContent'] = r'(?<=<textarea class="content hidden">).*(?=<span class="answer-date-link-wrap">)'
-        self.regDict['answerInfo'] = r'(?<=<div class="zm-meta-panel">).*?(?=<a href="#" name="collapse" class="collapse meta-item zg-right"><i class="z-icon-fold">)'
+        self.regDict['answerInfo'] = r'(?<=<div class="zm-meta-panel">).*?(?=<a href="#" name="collapse" \
+                    class="collapse meta-item zg-right"><i class="z-icon-fold">)'
         self.regDict['updateInfo'] = r'(?<=<span class="answer-date-link-wrap">).*?(?=</span>)'
         self.regTipDict['updateInfo'] = u'提取答案更新日期信息'
 
@@ -389,8 +390,10 @@ class ParseTopic(ParseAuthor):
         # 实例化Regex
         # 为Regex添加合适的项目
         self.regDict['splitContent'] = r'<div class="feed-main">'   # 关键表达式，用于切分答案
-        self.regDict['answerContent'] = r'(?<=<textarea class="content hidden">).*(?=<span class="answer-date-link-wrap">)'
-        self.regDict['answerInfo'] = r'(?<=<div class="zm-meta-panel">).*?(?=<a href="#" name="collapse" class="collapse meta-item zg-right"><i class="z-icon-fold">)'
+        self.regDict['answerContent'] = r'(?<=<textarea class="content \
+                    hidden">).*(?=<span class="answer-date-link-wrap">)'
+        self.regDict['answerInfo'] = r'(?<=<div class="zm-meta-panel">).*?(?=<a href="#" \
+                    name="collapse" class="collapse meta-item zg-right"><i class="z-icon-fold">)'
         self.regDict['updateInfo'] = r'(?<=<span class="answer-date-link-wrap">).*?(?=</span>)'
         self.regTipDict['updateInfo'] = u'提取答案更新日期信息'
         self.regDict['answerAuthorSign'] = r'(?<=<strong title=")[^<]*(?=" class="zu-question-my-bio">)'
@@ -425,7 +428,8 @@ class AuthorInfoParse(Parse):
         self.regDict['name'] = r'(?<=">).*?(?=</a>)'
         self.regTipDict['name'] = u'用户名'
 
-        self.regDict['userDesc'] = r'(?<=<span class="description unfold-item"><span class="content">).*?(?=</span><a href="javascript:;" class="unfold")'
+        self.regDict['userDesc'] = r'(?<=<span class="description unfold-item"><span \
+                    class="content">).*?(?=</span><a href="javascript:;" class="unfold")'
         self.regTipDict['userDesc'] = u'用户描述'
 
         self.regDict['userActiveInfoContent'] = r'(?<=<div class="profile-navbar clearfix">).*?(?=<div class="zm-profile-section-wrap zm-profile-details-wrap">)'
@@ -443,12 +447,14 @@ class AuthorInfoParse(Parse):
         self.regDict['topicCountInfoContent'] = r'(?<=<div class="zm-profile-side-section-title">).*?(?=</div>)'
         self.regTipDict['topicCountInfoContent'] = u'关注的话题数信息'
 
-        self.regDict['userViewContent'] = r'(?<=<div class="zm-profile-side-section"><div class="zm-side-section-inner"><span class="zg-gray-normal">).*?(?=</div>)'
+        self.regDict['userViewContent'] = r'(?<=<div class="zm-profile-side-section">\
+            <div class="zm-side-section-inner"><span class="zg-gray-normal">).*?(?=</div>)'
         self.regTipDict['userViewContent'] = u'用户浏览数信息'
         self.regDict['watched'] = r'(?<=<strong>)\d*(?=</strong>)'
         self.regTipDict['watched'] = u'用户浏览数'
 
-        self.regDict['authorLogoContent'] = r'(?<=<div class="zm-profile-header-avatar-container ">).*?(?="class="zm-profile-header-img zg-avatar-big zm-avatar-editor-preview"/>)'
+        self.regDict['authorLogoContent'] = r'(?<=<div class="zm-profile-header-avatar-container ">).*?\
+            (?="class="zm-profile-header-img zg-avatar-big zm-avatar-editor-preview"/>)'
         self.regTipDict['authorLogoContent'] = u'用户头像内容'
         self.regDict['authorLogoAddress'] = r'(?<=src=").*'
         self.regTipDict['authorLogoAddress'] = u'用户头像'
@@ -502,7 +508,9 @@ class AuthorInfoParse(Parse):
         return infoDict
 
 class TopicInfoParse(Parse):
-    u'标准网页:正常值'
+    u"""
+    标准网页:正常值
+    """
     def addRegex(self):
         self.regDict = {}
         self.regDict['topicTitle'] = r'(?<=<title>).*?(?= - )'

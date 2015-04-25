@@ -48,7 +48,7 @@ class Login(BaseClass, HttpBaseClass, SqlClass, CookieBaseClass):
         return
 
     def login_guide(self):
-        print u'当然，作者更推荐您使用内置的孟晴雪的账号密码进行登陆，这能更好的保护您的账号密码安全'
+        print u'当然，作者更推荐您使用内置的账号密码进行登陆，这能更好的保护您的账号密码安全'
         print u'现在开始登陆知乎，请根据提示输入您的账号密码'
 
     def send_message(self, account, password, captcha=''):

@@ -170,7 +170,7 @@ class Zhihu2ebook(object):
         if kind == 'question':
             urlInfo['questionID'] = re.search(r'(?<=zhihu\.com/question/)\d{8}', urlInfo['baseUrl']).group(0)
             urlInfo['guide'] = u'成功匹配到问题地址{}，开始执行抓取任务'.format(urlInfo['baseUrl'])
-            urlInfo['worker'] = QuestionWorker(conn = self.conn, urlInfo = urlInfo)
+            urlInfo['worker'] = QuestionWorker(conn=self.conn, urlInfo=urlInfo)
             # urlInfo['filter'] = QuestionFilter(self.cursor, urlInfo)
             urlInfo['infoUrl'] = ''
 

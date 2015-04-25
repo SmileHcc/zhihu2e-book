@@ -19,7 +19,7 @@ class BaseClass(object):
     test_buffer_flag = False
     # test_chekcUpdate_flag = False
     # test_chekcUpdate_flag = False
-    dataBaseFileName = u'./zhihuDB_171.db'
+    dataBaseFileName = u'./zhihuDB_v0_1.db'
 
     def print_dict(self, data={}, key='', prefix=''):
         """
