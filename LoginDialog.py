@@ -2,7 +2,7 @@
 
 # ######################################################
 # File Name   :    LoginDialog.py
-# Description :    Login窗体
+# Description :    Login对话框
 # Author      :    Frank
 # Date        :    2014.04.23
 # ######################################################
@@ -92,8 +92,8 @@ class LoginDialog(wx.Dialog):
 
     # 调用该函数将显示窗体并确定后可返回结果
     def Show(self):
-        res = self.ShowModal()
-        if res == wx.ID_OK:
+        result = self.ShowModal()
+        if result == wx.ID_OK:
             return self.txtCtrMap[USER].GetValue(), self.txtCtrMap[PWD].GetValue()
 
 if __name__ == '__main__':
