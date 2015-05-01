@@ -1,15 +1,16 @@
 # -*- coding: utf-8 -*-
 
 # ######################################################
-# File Name   :    Init.py  Done for now 2014.04.06
-# Description :    用于程序运行前的初始化
+# File Name   :    Init.py  Done for now，2014.04.06
+# Description :    用于程序运行前的初始化，主要是数据库操作
 # Author      :    Frank
 # Date        :    2014.03.04
 # ######################################################
 
-import os
 import sqlite3
-from baseclass import *
+
+from codes.baseclass import *
+
 
 class Init(object):
     def __init__(self):

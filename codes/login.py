@@ -11,10 +11,10 @@ import urllib
 import json
 import datetime
 
-from setting import *
-from baseclass import *
+from codes.setting import *
+from codes.baseclass import *
+from codes.httpLib import *
 
-from httpLib import *
 
 class Login(BaseClass, HttpBaseClass, SqlClass, CookieBaseClass):
     """

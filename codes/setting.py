@@ -7,8 +7,6 @@
 # Date        :    2014.03.04
 # ######################################################
 
-from baseclass import *
-
 import ConfigParser
 import os
 import re

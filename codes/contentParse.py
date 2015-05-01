@@ -7,11 +7,11 @@
 # Date        :    2014.04.05
 # ######################################################
 
-from baseclass import *
-
 import re
 import HTMLParser     # 转换网页代码
 import datetime       # 简单处理时间
+
+from codes.baseclass import *
 
 class Parse(BaseClass):
     def __init__(self, content):
@@ -209,9 +209,9 @@ class Parse(BaseClass):
         return yesterday
 
 class ParseQuestion(Parse):
-    u'''
+    u"""
     输入网页内容，返回两个dict，一个是问题信息dict，一个是答案dict列表
-    '''
+    """
 
     def addRegex(self):
         # 实例化Regex
@@ -535,6 +535,7 @@ class TopicInfoParse(Parse):
     def getInfoDict(self):
         infoDict = {}
         infoDict['title'] = self.matchContent('topicTitle', self.content)
+        infoDict['title'] = infoDict['title'].replace(u'<i data-tip="s$t$私密收藏夹" class="icon icon-lock"></i>', '')
         infoDict['description'] = self.matchContent('topicDesc', self.content)
         infoDict['topicID'] = self.matchContent('topicID', self.content)
 
@@ -571,7 +572,7 @@ class CollectionInfoParse(Parse):
         self.regTipDict['authorID'] = u'用户ID'
         self.regDict['authorSign'] = r'(?<=<div class="zg-gray-normal">).*'
         self.regTipDict['authorSign'] = u'用户签名'
-        self.regDict['authorName'] = r''# 需要用户ID的支持
+        self.regDict['authorName'] = r''        # 需要用户ID的支持
         self.regTipDict['authorName'] = u'用户名'
 
     def getInfoDict(self):

@@ -1,7 +1,7 @@
 # -*- coding: utf-8 -*-
 
 # ######################################################
-# File Name   :    BaseClass.py
+# File Name   :    BaseClass.py   Done for now
 # Description :    存放一些常用的函数
 # Author      :    Frank
 # Date        :    2014.03.04
@@ -15,7 +15,7 @@ class BaseClass(object):
     """
     # 全局变量，用于测试
     test_checkUpdate_flag = False
-    test_catchAnswerData_flag = True
+    test_catchAnswerData_flag = True     # 改为True，可以直接从数据库中拿数据，不需要再抓取，当然前提是已经抓取过
     test_buffer_flag = False
     # test_chekcUpdate_flag = False
     # test_chekcUpdate_flag = False
@@ -198,6 +198,30 @@ class CookieBaseClass(object):
             rest={}
         )
         return cookie
+
+
+# 工具函数
+import os
+import shutil
+def mkdir(path):
+    try:
+        os.mkdir(path)
+    except OSError:
+        print u'指定目录已存在'
+    return
+
+def chdir(path):
+    try:
+        os.chdir(path)
+    except OSError:
+        print u'指定目录不存在，自动创建之'
+        mkdir(path)
+        os.chdir(path)
+    return
+
+def rmdir(path):
+    shutil.rmtree(path=path, ignore_errors=True)
+    return
 
 if __name__ == "__main__":
     testBaseClass = BaseClass()
