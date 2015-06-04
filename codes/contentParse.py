@@ -15,19 +15,22 @@ from codes.baseclass import *
 
 class Parse(BaseClass):
     def __init__(self, content):
-        self.content = content.replace('\r', '').replace('\n', '')
+        # self.content = content
+        # print "content是？"+self.content
+        self.content = content.replace('\r', '').replace('\n', '')   # 删掉会有什么问题？
+        self.regDict = {}
+        self.regTipDict = {}
+
         self.initRegex()
         self.addRegex()
 
     def initRegex(self):
-        self.regDict = {}
-        self.regTipDict = {}
         # 关键表达式，用于切分答案
-        self.regDict['splitContent'] = r'<div tabindex="-1" class="zm-item-answer "'
+        self.regDict['splitContent'] = r'<div tabindex="-1" class="zm-item-answer "'  # TODO ?? 不匹配？
         self.regTipDict['splitContent'] = u'内容分割'
 
         # 提取答主信息
-        self.regDict['answerAuthorInfo'] = r'(?<=<h3 class="zm-item-answer-author-wrap">).*?(?=</h3>)'
+        self.regDict['answerAuthorInfo'] = r'(?<=<h3 class="zm-item-answer-author-wrap">).*?(?=</h3>)'  # 有用户姓名，头像
         # 若为匿名用户，则收集到的内容只有【匿名用户】四个字
         self.regTipDict['answerAuthorInfo'] = u'提取答主信息块'
         self.regDict['answerAuthorID'] = r'(?<=href="/people/)[^"]*'
@@ -40,7 +43,7 @@ class Parse(BaseClass):
         self.regTipDict['answerAuthorName'] = u'提取答主用户名'
 
         # 提取答案信息
-        # 可能存在问题，当前测试样本中没有赞同数为0的情况，回去检查下
+        # 可能存在问题：当前测试样本中没有赞同数为0的情况
         self.regDict['answerAgreeCount'] = r'(?<=<div class="zm-item-vote-info " data-votecount=")[^"]*'
         self.regTipDict['answerAgreeCount'] = u'提取答案被赞同数'
         self.regDict['answerCommentCount'] = r'\d*(?= 条评论)'     # 为None
@@ -64,7 +67,7 @@ class Parse(BaseClass):
         self.regTipDict['updateDate'] = u'提取最后更新日期'
         # 没有考虑到只显示时间和昨天今天的问题
         self.regDict['commitDate'] = r'(?<=发布于 )[-:\d]*'
-        self.regTipDict['commitDate']   = u'提取回答发布日期'
+        self.regTipDict['commitDate'] = u'提取回答发布日期'
 
         # 以下正则交由子类自定义之
         # 用戶首页信息提取
@@ -194,7 +197,7 @@ class Parse(BaseClass):
 
         if answerDict['updateDate'] == '':
             answerDict['updateDate'] = answerDict['commitDate']
-        for key in ['updateDate', 'commitDate']:#此处的时间格式转换还可以进一步改进
+        for key in ['updateDate', 'commitDate']:     # 此处的时间格式转换还可以进一步改进
             if len(answerDict[key]) != 10:
                 if len(answerDict[key]) == 0:
                     answerDict[key] = self.getYesterday().isoformat()
@@ -203,9 +206,9 @@ class Parse(BaseClass):
         return answerDict
 
     def getYesterday(self):
-        today=datetime.date.today()
-        oneday=datetime.timedelta(days=1)
-        yesterday=today-oneday
+        today = datetime.date.today()
+        oneday = datetime.timedelta(days=1)
+        yesterday = today-oneday
         return yesterday
 
 class ParseQuestion(Parse):
@@ -293,9 +296,9 @@ class ParseAnswer(ParseQuestion):
 
 
 class ParseAuthor(Parse):
-    u'''
+    u"""
     输入网页内容，返回一个dict，答案dict列表
-    '''
+    """
 
     def addRegex(self):
         # 实例化Regex
@@ -313,7 +316,7 @@ class ParseAuthor(Parse):
 
     def getInfoDict(self):
         contentList = self.getSplitContent()
-        answerDictList       = []
+        answerDictList = []
         questionInfoDictList = []
         for content in contentList:
             answerDict = self.getAnswerDict(content)
@@ -351,7 +354,7 @@ class ParseAuthor(Parse):
 
         if answerDict['updateDate'] == '':
             answerDict['updateDate'] = answerDict['commitDate']
-        for key in ['updateDate', 'commitDate']:#此处的时间格式转换还可以进一步改进
+        for key in ['updateDate', 'commitDate']:  #此处的时间格式转换还可以进一步改进
             if len(answerDict[key]) != 10:
                 if len(answerDict[key]) == 0:
                     answerDict[key] = self.getYesterday().isoformat()
@@ -547,7 +550,9 @@ class TopicInfoParse(Parse):
         return infoDict
 
 class CollectionInfoParse(Parse):
-    u'标准网页:正常值'
+    u"""
+    标准网页:正常值
+    """
     def addRegex(self):
         self.regDict['collectionTitle'] = r'(?<=<h2 class="zm-item-title zm-editable-content" id="zh-fav-head-title">).*?(?=</h2>)'
         self.regTipDict['collectionTitle'] = u'收藏夹标题'

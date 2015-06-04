@@ -81,7 +81,12 @@ class ImgDownloader():
         content = self.getHttpContent(url=link, timeout=self.waitFor)
         if content == '':
             return
-        imgFile = open(self.targetDir + fileName, 'wb')
+        print "WTF is img fileName" + fileName
+        if fileName.__contains__('?'):
+            fileName += '.png'    # 只解决了下载问题，并没有解决显示问题 TODO
+        fileName.replace("?", '')
+        print "now WTF is img fileName:" + fileName
+        imgFile = open((self.targetDir + fileName).replace('?', ''), 'wb')
         imgFile.write(content)
         imgFile.close()
         self.imgSet.discard(link)

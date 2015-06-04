@@ -178,9 +178,9 @@ class QuestionPackage(Package):
         self.answerDict = self.package['answerDict']
 
     def addAnswer(self, answerPackage):
-        u'''
+        u"""
         answer中没有多少需要合并的信息，所以不对answer调用merge方法
-        '''
+        """
         answerID = answerPackage['answerID']
         if not answerID in self.answerDict:
             self.answerDict[answerID] = answerPackage
@@ -205,8 +205,9 @@ class QuestionPackage(Package):
         self.package['agreeCount'] = agreeCount
         return self.package
 
+
 class AnswerPackage(Package):
-    u'''
+    u"""
     数据结构
     其中，对于Article而言，questionID即为columnID,answerID即为articleID
     *   Answer
@@ -223,7 +224,7 @@ class AnswerPackage(Package):
         *   collectCount
         *   extraKey
             *   留作日后扩展
-    '''
+    """
     def initPackage(self):
         self.package['authorID'] = ''
         self.package['authorSign'] = ''

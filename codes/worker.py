@@ -11,6 +11,7 @@ import threading
 
 from codes.contentParse import *
 
+
 class PageWorker(BaseClass, HttpBaseClass, SqlClass):
     def __init__(self, conn=None, urlInfo={}):
         self.conn = conn
@@ -26,12 +27,14 @@ class PageWorker(BaseClass, HttpBaseClass, SqlClass):
         self.setWorkSchedule()
 
     def getMaxPage(self, content):
-        u"Don't finding unicode char in normal string"
+        u"""
+        Don't finding unicode char in normal string
+        """
         try:
-            pos      = content.index('">下一页</a></span>')
+            pos = content.index('">下一页</a></span>')
             rightPos = content.rfind("</a>", 0, pos)
-            leftPos  = content.rfind(">", 0, rightPos)
-            maxPage  = int(content[leftPos+1:rightPos])
+            leftPos = content.rfind(">", 0, rightPos)
+            maxPage = int(content[leftPos+1:rightPos])
             print u"答案列表共计{}页".format(maxPage)
             return maxPage
         except:
@@ -247,7 +250,7 @@ class AuthorWorker(PageWorker):
         self.questionInfoDictList = []
         self.answerDictList = []
         for key in self.workSchedule:
-            threadPool.append(threading.Thread(target = self.worker, kwargs = {'workNo' : key}))
+            threadPool.append(threading.Thread(target=self.worker, kwargs={'workNo': key}))
         threadsCount = len(threadPool)
         threadLiving = 2
         while (threadsCount > 0 or threadLiving > 1):
@@ -265,14 +268,14 @@ class AuthorWorker(PageWorker):
         for questionInfoDict in self.questionInfoDictList:
             self.save2DB(self.cursor, questionInfoDict, 'questionIDinQuestionDesc', 'QuestionInfo')
         for answerDict in self.answerDictList:
-            self.save2DB(self.cursor, answerDict, 'answerHref', 'AnswerContent')
+            self.save2DB(self.cursor, answerDict, 'answerHref', 's')
             self.addIndex(answerDict['answerHref'])
         self.conn.commit()
         print 'commit complete'
         return
 
     def catchFrontInfo(self):
-        content = self.getHttpContent(url = self.urlInfo['infoUrl'], extraHeader = self.extraHeader, timeout = self.waitFor)
+        content = self.getHttpContent(url=self.urlInfo['infoUrl'], extraHeader=self.extraHeader, timeout = self.waitFor)
         if content == '':
             return
         parse = AuthorInfoParse(content)
@@ -281,7 +284,7 @@ class AuthorWorker(PageWorker):
         return
 
 
-    def worker(self, workNo = 0):
+    def worker(self, workNo=0):
         u"""
         worker只执行一次，待全部worker执行完毕后由调用函数决定哪些worker需要再次运行
         重复的次数由self.maxTry指定
@@ -289,7 +292,7 @@ class AuthorWorker(PageWorker):
         """
         if workNo in self.complete:
             return
-        content = self.getHttpContent(url = self.workSchedule[workNo], extraHeader = self.extraHeader, timeout = self.waitFor)
+        content = self.getHttpContent(url=self.workSchedule[workNo], extraHeader=self.extraHeader, timeout = self.waitFor)
         if content == '':
             return
         parse = ParseAuthor(content)
@@ -330,7 +333,7 @@ class TopicWorker(AuthorWorker):
         return
 
     def catchFrontInfo(self):
-        content = self.getHttpContent(url = self.urlInfo['infoUrl'], extraHeader = self.extraHeader, timeout = self.waitFor)
+        content = self.getHttpContent(url=self.urlInfo['infoUrl'], extraHeader=self.extraHeader, timeout = self.waitFor)
         if content == '':
             return
         parse = TopicInfoParse(content)
@@ -338,7 +341,7 @@ class TopicWorker(AuthorWorker):
         self.save2DB(self.cursor, infoDict, 'topicID', 'TopicInfo')
         return
 
-    def worker(self, workNo = 0):
+    def worker(self, workNo=0):
         if workNo in self.complete:
             return
         content = self.getHttpContent(url=self.workSchedule[workNo], extraHeader=self.extraHeader, timeout=self.waitFor)

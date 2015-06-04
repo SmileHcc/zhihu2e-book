@@ -15,7 +15,7 @@ class BaseClass(object):
     """
     # 全局变量，用于测试
     test_checkUpdate_flag = False
-    test_catchAnswerData_flag = True     # 改为True，可以直接从数据库中拿数据，不需要再抓取，当然前提是已经抓取过
+    test_catchAnswerData_flag = False     # 改为True，可以直接从数据库中拿数据，不需要再抓取，当然前提是已经抓取过
     test_buffer_flag = False
     # test_chekcUpdate_flag = False
     # test_chekcUpdate_flag = False

@@ -1,12 +1,18 @@
 # -*- coding:utf-8 -*-
+# ######################################################
+# File Name   :    parser.py
+# Description :    解析HTML格式的字符串
+# Author      :    Frank
+# Date        :    2014.03.04
+# ######################################################
 
 
 class Parser(object):
     """
-    基类
-    解析HTML字符串
+    基类，解析HTML字符串
     """
     def __init__(self, content):
+        # self.content = content
         self.content = content.replace('\r', '').replace('\n', '')
         self.reg_dict = {}   # 这两行不应该放在init_regex函数中
         self.reg_tip_dict = {}
@@ -137,4 +143,8 @@ class Parser(object):
         return
 
     def add_regex(self):
+        """
+        TODO
+        :return:
+        """
         return

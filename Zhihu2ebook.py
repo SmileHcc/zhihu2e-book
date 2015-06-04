@@ -14,9 +14,17 @@ reload(sys)
 # 修改系统（终端输出）默认的编码，文件格式、处理格式
 sys.setdefaultencoding('utf-8')
 
+# f = open('log.txt', 'w')
+old_stdout = sys.stdout
+# sys.stdout = f
+
 from codes.main import *
 
 gameBegin = Zhihu2ebook()
 gameBegin.main_start()
 
+sys.stdout = old_stdout
+# f.close()
+print 'It\'s done'
+# print sys.getdefaultencoding()
 

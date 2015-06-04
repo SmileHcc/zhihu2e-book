@@ -10,11 +10,13 @@
 import urllib
 import json
 import datetime
+import logging
 
 from codes.setting import *
 from codes.baseclass import *
 from codes.httpLib import *
 
+# logging.basicConfig(filename=os.path.join(os.getcwd(), 'log.txt'), level=logging.DEBUG)
 
 class Login(BaseClass, HttpBaseClass, SqlClass, CookieBaseClass):
     """
@@ -53,9 +55,9 @@ class Login(BaseClass, HttpBaseClass, SqlClass, CookieBaseClass):
 
     def send_message(self, account, password, captcha=''):
         xsrf = self.getXsrf(self.getHttpContent('http://www.zhihu.com/login'))
-        print "debug: 输入的验证码：", captcha
-        print "debug: 输入的用户：", account
-        print "debug: 用户密码：", password
+        # logging.debug("debug: 输入的验证码：", captcha)
+        # logging.debug("debug: 输入的用户：", account)
+        # logging.debug("debug: 用户密码：", password)
 
         if xsrf == '':
             print u'知乎网页打开失败'

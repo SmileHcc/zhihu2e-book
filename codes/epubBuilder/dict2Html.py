@@ -47,11 +47,14 @@ class Transfer():
                     continue
             self.imgSet.add(src)
             fileName = self.getFileName(src)
+            print "what is fileName in imgSet" + fileName
+            if "jpg" not in fileName:
+                fileName += '.png'
             content = content.replace(src, '../images/' + fileName)
         return content
 
     def getFileName(self, imgHref=''):
-        return imgHref.split('/')[-1]
+        return imgHref.split('/')[-1].replace('?', '')
 
     def authorLink(self, authorName, authorID):
         return "<a href='http://www.zhihu.com/people/{0}'>{1}</a>".format(authorID, authorName)
@@ -74,6 +77,9 @@ class Transfer():
 
             contentHeader['titleName'] = question['title']
             if question['kind'] == 'article':      # TODO
+                # if "jpg" not in question['titleLogo']:
+                #     question['titleLogo'] += ".png"
+                # print "duokan-image-single:what is question['titleLogo']" + question['titleLogo']
                 contentHeader['titleImage'] = '<div class="duokan-image-single"><img src="{}" alt=""/></div>'.format(question['titleLogo'])
             else:
                 contentHeader['titileDesc'] = question['description']

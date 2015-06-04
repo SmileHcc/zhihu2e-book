@@ -81,8 +81,7 @@ class Zhihu2ebook(object):
         # 主程序开始运行
         readList = open('./ReadList.txt', 'r')
         bookCount = 1
-        for line in readList:
-            # 一行表示一本电子书
+        for line in readList:         # 一行表示一本电子书
             chapter = 1
             for rawUrl in line.split('$'):    # 用$符号分开章节
                 print "debug:rawUrl" + rawUrl
@@ -98,7 +97,7 @@ class Zhihu2ebook(object):
 
                 try:
                     testhtml = urlInfo['filter'].getResult()
-                    print "html???" + testhtml['title']
+                    print "html???title:" + testhtml['title']
                     print "questionDict:"
                     print str(testhtml['questionDict'])
                     self.addEpubContent(testhtml)

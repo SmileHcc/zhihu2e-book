@@ -83,6 +83,7 @@ class Book():
         self.identifier = 1             # 用于生成递增ID
         self.index = ''                 # 用于生成目录
 
+        print "bookTitle是？"+self.bookTitle
         rmdir(u'./' + str(self.bookTitle))
         mkdir(u'./' + str(self.bookTitle))
         chdir(u'./' + str(self.bookTitle))
@@ -512,7 +513,9 @@ def chdir(path):
     except OSError:
         print u'指定目录不存在，自动创建之'
         mkdir(path)
+        print "path是？"+path
         os.chdir(path)
+
     return
 
 def rmdir(path):

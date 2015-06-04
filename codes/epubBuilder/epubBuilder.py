@@ -73,6 +73,9 @@ class Zhihu2Epub():
         illegalCharList = ['\\', '/', ':', '*', '?', '<', '>', '|', '"']
         for illegalChar in illegalCharList:
             self.fileTitle = self.fileTitle.replace(illegalChar, '')
+
+        # self.replace('\r', '').replace('\n', '')
+        print "self.fileTitle:" + self.fileTitle
         return
 
     def imgDownload(self):
@@ -87,9 +90,12 @@ class Zhihu2Epub():
             title = content['contentName']
             book.addHtml(src=htmlSrc, title=title)
         for src in self.downloadedImgSet:
-            imgSrc = '../../' + self.baseImgPath + src
+            print "what is downloadedImgSeted src:" + str(src).replace('?', '')    # for equation？tex
+            imgSrc = '../../' + self.baseImgPath + str(src).replace('?', '')
             if src == '':
                 continue
+            # imgSrc.replace('?', '')
+            print "now what is downloadedImgSeted src:" + str(src)
             book.addImg(imgSrc)
         # 增加一些属性
         book.addLanguage('zh-cn')
