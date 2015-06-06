@@ -55,7 +55,9 @@ class Zhihu2ebook(object):
         else:
             self.pQuality = int(self.pQuality)
 
+        time0 = time.time()
         login = Login(self.conn)
+
         if self.reAccount != 'yes':
             print u'检测到有设置文件，是否直接使用之前的设置？(帐号、密码、图片质量、最大线程数)'
             print u'直接点按回车使用之前设置，敲入任意字符后点按回车进行重新设置'
@@ -77,7 +79,9 @@ class Zhihu2ebook(object):
         }
         self.setting.setSetting(settingDict)
         print "登陆成功，信息已经保存"
+        print time.time() - time0
 
+        time0 = time.time()
         # 主程序开始运行
         readList = open('./ReadList.txt', 'r')
         bookCount = 1
@@ -115,7 +119,7 @@ class Zhihu2ebook(object):
                 del self.epubContent
             except AttributeError:
                 pass
-
+            print time.time() - time0
 
             self.resetDir()
             bookCount += 1
