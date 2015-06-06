@@ -21,7 +21,7 @@ class Zhihu2ebook(object):
         ContentList.txt存放需要爬取的地址（可能是收藏夹地址，可能是某用户的地址）
         ContentList.txt使用$符号区隔开，同一行内的链接信息会放在一本电子书中
         """
-        if BaseClass.test_catchAnswerData_flag:
+        if BaseClass.test_checkUpdate_flag:
             print u'测试，不检查更新'
         else:
             self.check_update()   # 检查是否需要更新，如果有更新，默认浏览器打开链接
@@ -55,7 +55,7 @@ class Zhihu2ebook(object):
         else:
             self.pQuality = int(self.pQuality)
 
-        time0 = time.time()
+        login_time = time.time()
         login = Login(self.conn)
 
         if self.reAccount != 'yes':
@@ -72,16 +72,23 @@ class Zhihu2ebook(object):
             self.mThread = int(self.setting.login_guide_max_thread())
             self.pQuality = int(self.setting.login_guide_pic_quality())
 
+        setting_time = time.time()
+
         self.setting = Setting()
         settingDict = {
             'maxThread': self.mThread,
             'picQuality': self.pQuality,
         }
         self.setting.setSetting(settingDict)
-        print "登陆成功，信息已经保存"
-        print time.time() - time0
 
-        time0 = time.time()
+        print "setting模块的执行时间为"
+        print time.time() - setting_time
+
+        print "登陆成功，信息已经保存"
+
+        print "login模块的执行时间为"
+        print time.time() - login_time
+
         # 主程序开始运行
         readList = open('./ReadList.txt', 'r')
         bookCount = 1
@@ -95,7 +102,12 @@ class Zhihu2ebook(object):
                 if BaseClass.test_catchAnswerData_flag:
                     print u'测试期间，跳过对网页的抓取,直接从数据库中拿数据'
                 else:
+                    manager_time = time.time()
+
                     self.manager(urlInfo)
+
+                    print "manager模块的执行时间为"
+                    print time.time() - manager_time
                     print "已经保存到数据库了"
                 # urlInfo['worker'].start()
 
@@ -104,7 +116,11 @@ class Zhihu2ebook(object):
                     print "html???title:" + testhtml['title']
                     print "questionDict:"
                     print str(testhtml['questionDict'])
+
+                    addEpubContent_time = time.time()
                     self.addEpubContent(testhtml)
+                    print "addEpubContent模块的执行时间为"
+                    print time.time() - addEpubContent_time
 
                 except TypeError as error:
                     print u'没有收集到指定问题'
@@ -115,11 +131,13 @@ class Zhihu2ebook(object):
             try:
                 if self.epubContent:    # 递归定义？有意思
                     print "开始制作电子书"
+                    epubbuilder_time = time.time()
                     Zhihu2Epub(self.epubContent)
+                    print "epubbuilder模块的运行时间为"
+                    print time.time() - epubbuilder_time
                 del self.epubContent
             except AttributeError:
                 pass
-            print time.time() - time0
 
             self.resetDir()
             bookCount += 1
